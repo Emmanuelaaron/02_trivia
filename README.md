@@ -29,5 +29,8 @@ By default the applucation is run on http://127.0.0.1:5000/
 - Then run the server using the command below
 `$ npm start`
 
+### Authors
+Emmanuel Isabirye
+
 
 
