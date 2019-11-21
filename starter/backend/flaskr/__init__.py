@@ -29,7 +29,7 @@ def create_app(test_config=None):
   Create an endpoint to handle GET requests 
   for all available categories.
   '''
-  @app.route('/')
+  @app.route('/categories')
   def get_categories():
       formatted_categories = [category.type for category in Category.query.all()]
       return jsonify({
@@ -128,7 +128,7 @@ def create_app(test_config=None):
         "body": body,
         "message": "question created succesfully"
 
-      })
+      }), 201
   '''
   @TODO: 
   Create a POST endpoint to get questions based on a search term. 

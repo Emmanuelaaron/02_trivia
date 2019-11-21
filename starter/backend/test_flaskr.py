@@ -34,7 +34,7 @@ class TriviaTestCase(unittest.TestCase):
     Write at least one test for each test for successful operation and for expected errors.
     """
     def test_get_categories(self):
-        res = self.client().get("/")
+        res = self.client().get("/categories")
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
 
@@ -48,6 +48,27 @@ class TriviaTestCase(unittest.TestCase):
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 404)
         self.assertEquals(data["message"], "resource not found")
+
+    def test_create_question(self):
+        question = {
+            "question": "who are you?",
+            "answer": "i am who iam",
+            "category": 1,
+            "diffculty": 4
+        }
+        resp = self.client().post("/questions", content_type="application/json", data=json.dumps(question))
+        self.assertEqual(resp.status_code, 422)
+
+    def test_search_question(self):
+        question = {
+            "question": "who"
+        }
+        resp = self.client().post('/questions/search', content_type="application/json", data=json.dumps(question))
+        self.assertEquals(resp.status_code, 404)
+
+    def test_get_by_category(self):
+        resp = self.client().get('/categories/4/questions')
+        self.assertEqual(resp.status_code, 500)
 
 
 
