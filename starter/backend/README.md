@@ -72,9 +72,12 @@ This README is missing documentation of your endpoints. Below is an example for 
 
 Endpoints
 GET '/categories'
-GET ...
-POST ...
-DELETE ...
+GET '/categories/<int:id>/questions'
+GET '/questions'
+POST '/questions'
+DELETE '/questions/<int:id>'
+POST  '/questions/search'
+POST '/quizzes'
 
 GET '/categories'
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
@@ -87,6 +90,123 @@ GET '/categories'
 '5' : "Entertainment",
 '6' : "Sports"}
 
+GET '/categories/<int:id>/questions'
+- Fetches questions based on category.
+- Request Arguments: Category id
+- Returns: 
+ * Categories list
+ * All questions that belong to specific category, that contains a list of questions with category id matching id using in url. 
+{
+  "categories": [
+    "Science", 
+    "Art", 
+    "Geography", 
+    "History", 
+    "Entertainment", 
+    "Sports"
+  ], 
+  "current_category": "Science", 
+  "questions": [
+    {
+      "answer": "The Liver", 
+      "category": "Science", 
+      "category_id": 1, 
+      "difficulty": 4, 
+      "id": 20, 
+      "question": "What is the heaviest organ in the human body?"
+    }, 
+    {
+      "answer": "Alexander Fleming", 
+      "category": "Science", 
+      "category_id": 1, 
+      "difficulty": 3, 
+      "id": 21, 
+      "question": "Who discovered penicillin?"
+    }
+}
+
+GET '/questions'
+- Fetches questions
+- Request Arguments: None
+- Returns: 
+ * Categories list
+ * Questions list that consists of question objects.
+- Returns: An object with four keys;
+* categories, that contains a categories list. 
+* questions, that contains an array of question objects with key:value pairs each for answer, category, difficult, id,question
+* success, success message
+* total_questions, this displays the total number of questions returned.
+{
+  "categories": {
+    "categories": [
+      "Science", 
+      "Art", 
+      "Geography", 
+      "History", 
+      "Entertainment", 
+      "Sports"
+    ], 
+    "success": true
+  }, 
+  "questions": [
+    {
+      "answer": "Maya Angelou", 
+      "category": 4, 
+      "difficulty": 2, 
+      "id": 5, 
+      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    }, 
+    {
+      "answer": "Muhammad Ali", 
+      "category": 4, 
+      "difficulty": 1, 
+      "id": 9, 
+      "question": "What boxer's original name is Cassius Clay?"
+    }, 
+    {
+      "answer": "Apollo 13", 
+      "category": 5, 
+      "difficulty": 4, 
+      "id": 2, 
+      "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+    }
+  ], 
+  "success": true, 
+  "total_questions": 3
+}
+
+POST '/questions'
+- Create a question.
+- Request arguments: dictionary containing key:value pairs for answer, category, difficult, question.
+- Returns : an object containing success state and message
+{
+    'success': True,
+    'message': 'Question Successfully added.'
+}
+
+DELETE '/questions/<int:id>'
+- Deletes a specifi question
+- Request arguements: question id
+- Returns: a object of 3 keys.
+ * success, indicates success
+ * question_id, displays id of question that has been deleted.
+ * message, success message of deletion operation
+
+ {
+    'success': True,
+    'question_id': id,
+    'message': 'Question Successfully deleted.'
+}
+
+POST  '/questions/search'
+- Fetches questions based on a search term.
+- Request arguements: searchTerm 
+- Returns: Any questions for whom the search term  is a substring of the question.
+
+POST '/quizzes'
+- Fetches questions to play the quiz.
+- Request arguements: category
+- Returns : random question within the given category
 ```
 
 
