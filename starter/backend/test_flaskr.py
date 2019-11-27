@@ -93,9 +93,46 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEquals(resp.status_code, 200)
         self.assertIn("questions", data)
 
+    def test_search_question_not_found(self):
+        question = {
+            "question": "whhghashfhafo"
+        }
+        resp = self.client().post('/questions/search',
+                                  content_type="application/json", data=json.dumps(question))
+        data = json.loads(resp.data.decode())
+        self.assertEquals(resp.status_code, 404)
+        self.assertIn("resource not found", str(data))
+
+    def test_get_quiz_questions(self):
+        category = {
+            "quiz_category": 1
+        }
+
+        previous = {
+            "previous_questions": "" 
+        }
+        resp = self.client().post('/quizz',
+                                  content_type="application/json", data=json.dumps(category))
+        data = json.loads(resp.data.decode())
+        print(data)
+        self.assertEquals(resp.status_code, 404)
+
+    def test_get_by_category_not_found(self):
+        resp = self.client().get('/categories/10/questions')
+        data = json.loads(resp.data.decode())
+        self.assertEqual(resp.status_code, 404)
+
     def test_get_by_category(self):
         resp = self.client().get('/categories/4/questions')
+        data = json.loads(resp.data.decode())
         self.assertEqual(resp.status_code, 200)
+
+    def test_get_paginated_questions(self):
+        resp = self.client().get('/questions')
+        data= json.loads(resp.data)
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['total_questions'])
 
 
 # Make the tests conveniently executable

@@ -176,6 +176,7 @@ def create_app(test_config=None):
         data = request.get_json()
 
         category = data['quiz_category']
+        print (category)
         quiz_category_id = category['id']
         questions = Question.query.filter_by(
             category=category['id']
